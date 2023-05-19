@@ -1,0 +1,53 @@
+---
+- name: To install Web Server to Ubuntu servers
+  hosts: staging_ubuntu
+  become: true
+
+  vars:
+    source_file: ./mywebpage/index.html
+    destin_file: /var/www/html
+
+  tasks:
+  - name: To Update Ubuntu
+    apt: update_cache=true 
+    
+  - name: To Install Apache
+    apt: name=apache2 state=latest
+
+  - name: To Copy my Web Page to Webserver
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: Restrat Apache
+       
+  - name: To Start and Enable Apache on Boot
+    service: name=apache2 state=started enabled=yes
+  
+  handlers: 
+  - name: Restrat Apache
+    service: name=apache2 state=restarted
+
+
+- name: To install Web Server to Debian server
+  hosts: staging_debian
+  become: true
+
+  vars:
+    source_file: ./mywebpage/index.html
+    destin_file: /var/www/html
+
+  tasks:
+  - name: To Update Debian
+    apt: update-cache=true
+
+  - name: To Install Apache
+    apt: name=apache2 state=latest
+
+  - name: To Copy my Web Page to Webserver
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: Restrat Apache
+
+  - name: To Start and Enable Apache on Boot
+    service: name=apache2 state=started enabled=yes
+
+  handlers:
+  - name: Restrat Apache
+    service: name=apache2 state=restarted

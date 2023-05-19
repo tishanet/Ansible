@@ -1,0 +1,18 @@
+[staging_ubuntu]
+server1 ansible_host=ec2-174-129-51-3.compute-1.amazonaws.com
+server2 ansible_host=ec2-34-229-220-114.compute-1.amazonaws.com
+
+[staging_debian]
+server3 ansible_host=ec2-44-204-52-2.compute-1.amazonaws.com
+
+[staging_linux:children]
+staging_ubuntu
+staging_debian
+
+#[staging_ubuntu:vars]
+#ansible_user=ubuntu
+#ansible_ssh_private_key_file=/home/tisha/.ssh/server1.pem
+
+#[staging_debian:vars]
+#ansible_user=admin
+#ansible_ssh_private_key_file=/home/tisha/.ssh/server2.pem
